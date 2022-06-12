@@ -17,6 +17,7 @@ python3 server.py
 ```
 #### [Client]
 ```sh
+pip3 install colorama
 python3 client.py {ip}
 ```
 
