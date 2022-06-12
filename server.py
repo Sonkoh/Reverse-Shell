@@ -5,7 +5,7 @@ from colorama import init, Fore, Style
 from datetime import date, datetime
 import platform
 
-SERVER_HOST = "138.197.77.162"
+SERVER_HOST = "0.0.0.0"
 SERVER_PORT = 8012
 BUFFER_SIZE = 1024 * 128
 SEPARATOR = "<sep>"
