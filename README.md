@@ -19,3 +19,14 @@ python3 server.py
 ```sh
 python3 client.py {ip}
 ```
+
+#### Extra commands
+
+[Menu]
+
+- connect {number}
+
+[Shell Commmands]
+
+- alert {title} {message}
+- exit
