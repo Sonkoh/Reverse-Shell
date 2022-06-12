@@ -10,9 +10,12 @@ execute the python script.
 #### Installation
 Linux or Windows or  MacOs
 
+#### [Server]
+
 ```sh
-[Server]
 python3 server.py
-[Client]
+```
+#### [Client]
+```sh
 python3 client.py {ip}
 ```
