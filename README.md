@@ -22,11 +22,11 @@ python3 client.py {ip}
 
 #### Extra commands
 
-[Menu]
+##### [Menu]
 
 - connect {number}
 
-[Shell Commmands]
+##### [Shell Commmands]
 
 - alert {title} {message}
 - exit
