@@ -34,4 +34,4 @@ python3 client.py {ip}
 
 #### Preview
 
-<img src="[https://i.imgur.com/dGReORh.gif](https://i.imgur.com/icFpnKA.png)"> 
+<img src="https://i.imgur.com/icFpnKA.png"> 
