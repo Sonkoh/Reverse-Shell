@@ -31,3 +31,7 @@ python3 client.py {ip}
 
 - alert {title} {message}
 - exit
+
+#### Preview
+
+<img src="[https://i.imgur.com/dGReORh.gif](https://i.imgur.com/icFpnKA.png)"> 
